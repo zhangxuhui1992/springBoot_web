@@ -50,6 +50,14 @@ public class HomeController {
         return "home/computerInfo";
     }
 	
+	/**
+	 * $跳转Echarts
+	 */
+	@RequestMapping("/loadEcharts")
+    public String loadEcharts(){
+        return "home/loadEcharts";
+    }
+	
 	
 	
 	
