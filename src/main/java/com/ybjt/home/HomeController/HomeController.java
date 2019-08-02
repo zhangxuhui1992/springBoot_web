@@ -58,6 +58,14 @@ public class HomeController {
         return "home/loadEcharts";
     }
 	
+	/**
+	 * $跳转Echarts-gl;
+	 */
+	@RequestMapping("/loadEchartsGL")
+    public String loadEchartsGL(){
+        return "home/loadEchartsGL";
+    }
+	
 	
 	
 	
