@@ -156,3 +156,4 @@ form.on('select(city)', function(data){
 
 ```
 
+js完成实时时间的显示、layui进度条的使用！
