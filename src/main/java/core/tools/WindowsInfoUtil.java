@@ -12,7 +12,7 @@ import com.sun.management.OperatingSystemMXBean;
 /**
  * 获取windows系统信息（CPU,内存,文件系统）
  * 
- * @author libing
+ * @author copy from internet
  * 
  */
 
