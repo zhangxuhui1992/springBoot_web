@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * #或者位于 controller 的上一级包中，
  * #但是不能放到 controller 的平级以及子包下。
  * @MapperScan扫描MyBatis的Mapper接口
- * @author Administrator
+ * @author Administrator 张旭辉
  */
 @SpringBootApplication
 @MapperScan("com.ybjt.*.mapper")
