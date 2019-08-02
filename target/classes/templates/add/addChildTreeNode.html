@@ -1,0 +1,59 @@
+<script type="text/javascript" src="jquery/jquery.validate.js"></script>
+<div>
+	<div style="height:90.7%">
+			<br>
+			<br>
+			<input type="hidden" name="pid" id="pid" value="${pid!}"></input>
+			<div class="layui-form-item" style="margin-left: 7%;">
+				<label class="layui-form-label">城市名称:</label>
+				<div class="layui-form-block">
+					<input type="text" class="layui-input" id="LOCATION_NAME" name="LOCATION_NAME"
+						style="width:60%" />
+				</div>
+			</div>
+			<div class="layui-form-item" style="margin-left: 7%;">
+				<label class="layui-form-label">城市描述 :</label>
+				<div class="layui-form-block">
+					<input type="text" id="DESC" name="DESC" class="layui-input"
+						style="width:60%"/>
+				</div>
+			</div>
+			<div style="background: #f2f2f2;height:40px;margin-top: 26px;">
+			<button class="layui-btn" style="margin-left:35%;" lay-submit lay-filter="childMenuSave">保存</button>
+			<button class="layui-btn" onclick="layer.closeAll();" style="margin-left: 35px;">关闭</button>
+		</div>
+	</div>
+</div>
+<script>
+	layui.use('form',function(){
+		var form = layui.form;
+		form.render();
+		//监听提交按钮
+		form.on('submit(childMenuSave)',function(){
+			var name = $("#LOCATION_NAME").val();
+			var desc = $("#DESC").val();
+			var pid = $("#pid").val();
+			console.log(desc);
+			$.ajax({
+				type:"POST",
+				url:'/location/addchild',
+				data:{"name":name,
+					"desc":desc,
+					"pid":pid
+				},
+				success:function(data){
+					layer.msg(data);
+					treeutil.treeinit("#treemenu", setting);
+					var time = setTimeout(function(){
+						layer.closeAll();
+					},1000);
+					cleansetTimeout(time);
+				},
+				error:function(){
+					layer.msg("添加错误！")
+				}
+			});
+			return false;
+		})
+	})
+</script>

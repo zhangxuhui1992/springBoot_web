@@ -1,0 +1,180 @@
+<blockquote class="layui-elem-quote news_search">
+		<div class="layui-inline">
+			<a class="layui-btn layui-btn-normal" onclick="toAddTree()">新增根节点</a>
+		</div>
+		<div class="layui-inline">
+			<a class="layui-btn layui-btn-normal" onclick="toAddChildNotes()">新增子节点</a>
+		</div>
+		<div class="layui-inline">
+			<a class="layui-btn layui-btn-danger" onclick="deleteNotes()">删除节点</a>
+		</div>
+</blockquote>
+
+<div class="layui-col-md6 layui-col-new">
+	<div class="layui-card">
+		<div class="layui-card-header">功能树</div>
+		<div class="layui-card-body" style="height: 450px;">
+			<ul class="ztree" id="treemenu"></ul>
+		</div>
+	</div>
+</div>
+<div class="layui-col-md6 layui-col-new">
+	<div class="layui-card">
+		<div class="layui-card-header">功能信息</div>
+		<div class="layui-card-body" style="height: 450px;">
+			<div id="locationInfoDiv_menu"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//初始化ztree
+	var taskId = "";
+	var setting = {
+		async: {
+			enable: true,
+			url:'/location/loadTreeData',
+			autoParam: ["id","pId" ,"name","open"]
+		},
+		
+		data:{
+			simpleData : {
+				enable : true
+			} ,
+			key:{
+				name:"name"
+			}
+		},
+		edit: {
+			enable:true,
+			showRemoveBtn:false,
+			showRenameBtn:false
+		},
+		callback: {
+				onClick : zonClick,
+				onAsyncSuccess : as
+		}
+	};
+	
+	function zonClick(event, treeId, treeNode, clickFlag){
+		taskId = treeNode.id;
+		$.ajax({
+			url:'/location/locationinfo',
+			type:'POST',
+			data:{"id":taskId},
+			dataType:'html',
+			success:function(data){
+				$("#locationInfoDiv_menu").empty();
+				$("#locationInfoDiv_menu").append(data);
+			},
+			error:function(){
+				layer.msg("未知错误");
+			}
+		});
+	};
+	
+	function as(){
+		var treeObj = $.fn.zTree.getZTreeObj("treemenu");
+		treeObj.expandAll(true);
+	};
+	
+	
+	
+	//添加根节点
+	function toAddTree(){
+		$.ajax({
+			type:'POST',
+			url:'/location/addRootLocation',
+			data:{},
+			dataType:"html",
+			success:function(data){
+				//iframe层
+				layer.open({
+					  title:'添加根节点',
+					  fix:false,
+					  maxmin: true,
+					  offset: 'auto',
+					  scrollbar: true,
+					  type: 1,
+					  skin: 'layui-layer-molv', //皮肤即颜色
+					  area: ['420px', '240px'], //宽高
+					  content: data
+					});
+			},
+			error:function(){
+				layer.msg("未知错误");
+			}
+		});
+	};
+	
+	//添加子节点
+	function toAddChildNotes(){
+		var treeObj = $.fn.zTree.getZTreeObj("treemenu");
+		var nodes  = treeObj.getSelectedNodes();
+		if(nodes && nodes.length == 0){
+			layer.alert('请选择一个节点！', {
+				  title:"警告：",
+				  icon: 2,
+				  skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+				})
+			return false;
+		}
+		var pid = nodes[0].id;
+		$.ajax({
+			type:'POST',
+			url:'/location/addChildLocation',
+			data:{"pid":pid},
+			dataType:"html",
+			success:function(data){
+				//iframe层
+				layer.open({
+					  title:'添加根节点',
+					  fix:false,
+					  maxmin: true,
+					  offset: 'auto',
+					  scrollbar: true,
+					  type: 1,
+					  skin: 'layui-layer-molv', //皮肤即颜色
+					  area: ['420px', '240px'], //宽高
+					  content: data
+					});
+			},
+			error:function(){
+				layer.msg("未知错误");
+			}
+		});
+		
+	};
+	
+	//删除节点
+	function deleteNotes(){
+		var treeObj = $.fn.zTree.getZTreeObj("treemenu");
+		var nodes  = treeObj.getSelectedNodes();
+		if(nodes && nodes.length == 0){
+			layer.alert('请选择一个节点！', {
+				  title:"警告：",
+				  icon: 2,
+				  skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+				})
+			return false;
+		}
+		var id = nodes[0].id;
+		$.ajax({
+			type:'POST',
+			url:'/location/deleteNotes',
+			data:{"id":id},
+			dataType:"text",
+			success:function(data){
+				layer.msg(data);
+				treeutil.treeinit("#treemenu", setting);
+			},
+			error:function(){
+				layer.msg("未知错误");
+			}
+		});
+	}
+	 
+	//dom加载完执行
+	$(function() {
+		treeutil.treeinit("#treemenu", setting);
+	});
+</script>

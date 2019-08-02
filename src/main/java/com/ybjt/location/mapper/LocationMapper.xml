@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybjt.location.mapper.LocationMapper">
+	<!-- 查询全部 -->
+    <select id="selectAll" resultType="location">
+        select * from sys_location;
+    </select>
+    
+    <select id="selectById" resultType="location">
+        select * from sys_location where LOCATION_ID = #{id};
+    </select>
+    
+    <update id="saveInfo" parameterType="location">
+    	update sys_location set LOCATION_EDITTIME =#{LOCATION_EDITTIME}, LOCATION_NAME = #{LOCATION_NAME},LOCATION_DESC = #{LOCATION_DESC} where LOCATION_ID = #{LOCATION_ID};
+    </update>
+    
+    <insert id="addRoot" parameterType="location">
+    	insert into sys_location values (#{LOCATION_ID},#{LOCATION_NAME},#{LOCATION_CREAETIME},#{LOCATION_EDITTIME},#{LOCATION_PID},#{LOCATION_DESC});
+    </insert>
+    
+    <delete id="deleteNotes" parameterType="java.lang.String">
+    	delete from sys_location where LOCATION_ID = #{id};
+    </delete>
+    
+    <select id="selectRootLocation" resultType="location">
+    	select * from sys_location where LOCATION_PID = '1';
+    </select>
+    
+     <select id="twoLocation" resultType="location">
+        select * from sys_location where LOCATION_PID = #{pid};
+    </select>
+</mapper>

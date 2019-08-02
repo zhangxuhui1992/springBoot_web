@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd" dynamicConfig="true">
+	<!-- 指定一个文件目录，当EHCache把数据写到硬盘上时，将把数据写到这个文件目录下 -->
+	<diskStore path="java.io.tmpdir" />
+	<defaultCache maxEntriesLocalHeap="0" eternal="false"
+		timeToIdleSeconds="1200" timeToLiveSeconds="1200">
+	</defaultCache>
+	<!-- <cache 
+		name="SystemCache" 
+		maxEntriesLocalHeap="10000"
+		maxElementsInMemory="100000" 
+		maxEntriesLocalDisk="1000" 
+		eternal="true"
+		diskSpoolBufferSizeMB="20" 
+		timeToIdleSeconds="600"
+		timeToLiveSeconds="600" 
+		memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+	</cache> -->
+	<cache 
+		name="DevCache" 
+		maxEntriesLocalHeap="10000"
+		maxEntriesLocalDisk="1000" 
+		eternal="false" 
+		diskSpoolBufferSizeMB="20"
+		timeToIdleSeconds="600" 
+		timeToLiveSeconds="600"
+		memoryStoreEvictionPolicy="LFU" 
+		transactionalMode="off">
+	</cache>
+	
+	<cache name="ForeverCache"
+		maxEntriesLocalHeap="10000"
+		maxEntriesLocalDisk="1000" 
+		eternal="false" 
+		diskSpoolBufferSizeMB="20"
+		timeToIdleSeconds="0" 
+		timeToLiveSeconds="0"
+		memoryStoreEvictionPolicy="LFU" 
+		transactionalMode="off">
+	</cache>
+</ehcache>

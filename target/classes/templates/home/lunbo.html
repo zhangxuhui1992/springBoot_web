@@ -1,0 +1,106 @@
+<div class="layui-carousel" id="test1">
+  <div carousel-item>
+    <div><img src="../../images/1.jpg" style="width:100%;height: 500px"></div>
+    <div><img src="../../images/2.jpg" style="width:100%;height: 500px"></div>
+    <div><img src="../../images/3.jpg" style="width:100%;height: 500px"></div>
+    <div><img src="../../images/4.jpg" style="width:100%;height: 500px"></div>
+    <div><img src="../../images/5.jpg" style="width:100%;height: 500px"></div>
+  </div>
+</div>
+<hr class="layui-bg-blue">
+<blockquote class="layui-elem-quote news_search">
+		王者荣耀     这不是一个人的战斗
+</blockquote>
+<blockquote class="layui-elem-quote news_search">
+		三级联动菜单 
+<form class="layui-form" action="">
+	<div class="layui-form-item" style="width: 30%">
+	    <label class="layui-form-label">城市</label>
+	    <div class="layui-input-block">
+	      <select id="city" name="pid" lay-filter="city">
+	        <option value="">请选择</option>
+	        <#if list ??>
+	        	<#list list as location>
+	        		<option value="${location.LOCATION_ID!}">${location.LOCATION_NAME!}</option>
+	        	</#list>
+	        </#if>
+	      </select>
+	    </div>
+	</div>
+	<div class="layui-form-item" style="width: 30%">
+	    <label class="layui-form-label">区/县</label>
+	    <div class="layui-input-block">
+	      <select id="xian" name="xian" lay-filter="xian">
+	       <option  value="">请选择</option>
+	      </select>
+	    </div>
+	</div>
+	<div class="layui-form-item" style="width: 30%">
+	    <label class="layui-form-label">村</label>
+	    <div class="layui-input-block">
+	      <select id="zhen"  name="zhen">
+	        <option value="">请选择</option>
+	      </select>
+	    </div>
+	</div>
+</div>
+</blockquote>
+<script>
+	layui.use(['carousel','form'], function(){
+	  var carousel = layui.carousel;
+	  form = layui.form;
+	  form.render();
+	  //建造实例
+	  carousel.render({
+	    elem: '#test1'
+	    ,width: '100%' //设置容器宽度
+	    ,height: '500px'
+	    ,arrow: 'always' //始终显示箭头
+	    //,anim: 'updown' //切换动画方式
+	  });
+	  
+	  form.on('select(city)', function(data){
+		  $("#xian").empty();
+		 var pid = data.value;
+		 $.ajax({
+			 type:"POST",
+			 url:"/location/twoLocation",
+			 data:{"pid":pid},
+			 dataType:"json",
+			 success:function(data){
+				for(var i = 0;i<data.length;i++){
+					$("#xian").append("<option value='"+data[i].lOCATION_ID+"'>"+data[i].lOCATION_NAME+"</option>");
+				}
+				  form.render();
+			 },
+			 error:function(){
+				 console.log("读取数据失败!");
+			 }
+		 	});
+		});
+	  
+	  form.on('select(xian)', function(data){
+		  	$("#zhen").empty();
+			 var pid = data.value;
+			 $.ajax({
+				 type:"POST",
+				 url:"/location/twoLocation",
+				 data:{"pid":pid},
+				 dataType:"json",
+				 success:function(data){
+					for(var i = 0;i<data.length;i++){
+						
+						$("#zhen").append("<option value='"+data[i].lOCATION_ID+"'>"+data[i].lOCATION_NAME+"</option>");
+					}
+					  form.render();
+				 },
+				 error:function(){
+					 console.log("读取数据失败!")
+				 }
+			 	});
+			});
+	});
+	
+	
+	
+</script>

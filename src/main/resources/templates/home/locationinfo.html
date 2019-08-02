@@ -1,0 +1,53 @@
+<div class="net_information">
+	<form class="layui-form layui-form-pane1" action="" lay-filter="first" id="treeForm_menu">
+		<input type="hidden" name="LOCATION_ID" id="LOCATION_ID" value="${(bean.LOCATION_ID)!}" />
+		<div class="layui-form-item">
+		    <label class="layui-form-label">城市名称:</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="LOCATION_NAEM" style="width:61%;" value="${bean.LOCATION_NAME!}"
+		      	lay-verify="required" required autocomplete="off" class="layui-input" id="LOCATION_NAEM">
+		    </div>
+		 </div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">城市概述:</label>
+		    <div class="layui-input-block">
+		   		 <textarea style="width:61%;" id="LOCATION_DESC" name="LOCATION_DESC" class="layui-textarea">${bean.LOCATION_DESC!}</textarea>
+		    </div>
+		 </div>
+		 <div class="layui-form-item">
+	    <div class="layui-input-block" style="margin-left: 35%;">
+	      <button type="button" class="layui-btn" lay-filter="MenuUpdate" lay-submit lay-filter="*">立即提交</button>
+	    </div>
+  	</div>
+	</form>
+</div>
+<script type="text/javascript">
+layui.use('form',function(){
+	var form = layui.form;
+		form.render();
+	//监听提交按钮
+	form.on('submit(MenuUpdate)',function(){
+		var location_id = $("#LOCATION_ID").val();
+		var location_name = $("#LOCATION_NAEM").val();
+		var lcoation_desc = $("#LOCATION_DESC").val();
+		$.ajax({
+			type:'POST',
+			url:'location/saveInfo',
+			data:{
+				"id":location_id,
+				"name":location_name,
+				"desc":lcoation_desc
+			},
+			dataType:'text',
+			success:function(data){
+				layer.msg(data);
+				treeutil.treeinit("#treemenu", setting);
+			},
+			error:function(){
+				layer.msg("错误！");
+			}
+		});
+		return false;
+	})
+})
+</script>
