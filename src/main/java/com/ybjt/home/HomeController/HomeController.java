@@ -82,4 +82,12 @@ public class HomeController {
         return "home/kaptcha_code";
     }
 	
+	/**
+	 * $跳转openlayers_page;
+	 */
+	@RequestMapping("/openlayers_page")
+    public String openlayers_page(){
+        return "home/openlayers_page";
+    }
+	
 }

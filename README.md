@@ -206,3 +206,7 @@ var option = {
 	myChart.setOption(option);
 ~~~
 
+# openlayers集成开发
+
+## 1.quick start
+
