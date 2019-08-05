@@ -158,7 +158,28 @@ form.on('select(city)', function(data){
 
 js完成实时时间的显示、layui进度条的使用！
 
-Echarts的简单上手使用。简单图表！
+Echarts的简单上手使用。简单图表！支持异步加载数据！
+
+~~~java
+myChart.showLoading();//加载动画。
+myChart.hideLoading();//加载完成自动取消
+// 异步加载数据,ajax异步获取数据前使用加载动画，success函数触发时取消加载动画，
+//并且将获取的数据，加载进图表！myChart.setOption({});
+$.get('data.json').done(function (data) {
+    // 填入数据
+    myChart.setOption({
+        xAxis: {
+            data: data.categories
+        },
+        series: [{
+            // 根据名字对应到相应的系列
+            name: '销量',
+            data: data.data
+        }]
+    });
+~~~
+
+
 
 ~~~javascript
 // 基于准备好的dom，初始化echarts实例

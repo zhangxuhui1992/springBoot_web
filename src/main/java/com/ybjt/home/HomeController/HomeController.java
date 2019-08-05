@@ -1,7 +1,14 @@
 package com.ybjt.home.HomeController;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,6 +74,12 @@ public class HomeController {
     }
 	
 	
-	
+	/**
+	 * $跳转kaptcha_code;
+	 */
+	@RequestMapping("/kaptcha_code")
+    public String kaptcha_code(){
+        return "home/kaptcha_code";
+    }
 	
 }

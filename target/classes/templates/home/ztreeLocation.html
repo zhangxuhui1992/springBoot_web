@@ -157,19 +157,29 @@
 				})
 			return false;
 		}
-		var id = nodes[0].id;
-		$.ajax({
-			type:'POST',
-			url:'/location/deleteNotes',
-			data:{"id":id},
-			dataType:"text",
-			success:function(data){
-				layer.msg(data);
-				treeutil.treeinit("#treemenu", setting);
-			},
-			error:function(){
-				layer.msg("未知错误");
-			}
+		//询问框
+
+		layer.confirm('您是否确认删除该节点？', {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+			//点击确认时触发的函数
+			var id = nodes[0].id;
+			$.ajax({
+				type:'POST',
+				url:'/location/deleteNotes',
+				data:{"id":id},
+				dataType:"text",
+				success:function(data){
+					layer.msg(data);
+					treeutil.treeinit("#treemenu", setting);
+				},
+				error:function(){
+					layer.msg("未知错误");
+				}
+			});
+		}, function(){
+		  //点击取消是触发的函数，当点击取消时，终止执行！
+		  return false;
 		});
 	}
 	 
