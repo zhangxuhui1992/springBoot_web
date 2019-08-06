@@ -2,6 +2,7 @@
 <button id="big">放大</button>
 <button id="small">缩小</button>
 <button id="fly-to-bern">定位到北京</button>
+<button id="drawPoint">画点</button>
 <script>
 	//创建地图
 	var map = new ol.Map({
@@ -20,15 +21,16 @@
 	      // 设置显示地图的视图
 	      view: new ol.View({
 	        center: [0, 0],    // 定义地图显示中心于经度0度，纬度0度处
-	        zoom: 5            // 并且定义地图显示层级为2
+	        zoom: 5,// 并且定义地图显示层级为5
+	     	// 指定投影使用EPSG:4326
+	        projection: 'EPSG:4326',
 	      }),
 	      // 让id为map的div作为地图的容器
 	      target: 'map',
 	      //
 	      loadTilesWhileAnimating: true,
 	      
-	   // 指定投影使用EPSG:4326
-          projection: 'EPSG:3857',
+	   
 	  });
 	
 	//放大
@@ -53,6 +55,44 @@
           center: beijing,
           duration: 3000
         });
+	});
+	
+	//画点
+	$("#drawPoint").click(function(){
+         /*  draw = new ol.interaction.Draw({
+            type: "Point"
+          });
+          map.addInteraction(draw); */
+       // 添加一个绘制的线使用的layer
+          var pointLayer = new ol.layer.Vector({
+              source: new ol.source.Vector(),
+              style: new ol.style.Style({
+                  image: new ol.style.Icon({
+                	src:'images/favicon.ico'
+                  }),
+                  text:new ol.style.Text({
+                	  text:"我是一个点",
+                	  font:"18px sans-serif ",
+                	  offsetY:"-20",
+                	  fill:new ol.style.Fill({
+                		  color:"red"
+                	  })
+                  })
+              })
+          })
+          map.addLayer(pointLayer);
+          
+          map.addInteraction(new ol.interaction.Draw({
+        	  type:'Point',
+        	  source:pointLayer.getSource()
+        	  }));
+       // 监听singleclick事件
+          map.on('singleclick', function(event){
+              // 通过getEventCoordinate方法获取地理位置，再转换为wgs84坐标，并弹出对话框显示
+              console.log(event.coordinate);
+              alert(event.coordinate);
+          })
+
 	});
 	
 </script>
