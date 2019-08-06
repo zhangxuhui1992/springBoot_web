@@ -31,7 +31,7 @@
 	    <label class="layui-form-label">区/县</label>
 	    <div class="layui-input-block">
 	      <select id="xian" name="xian" lay-filter="xian">
-	       <option  value="">请选择</option>
+	       <!-- <option  value="">请选择</option> -->
 	      </select>
 	    </div>
 	</div>
@@ -39,7 +39,7 @@
 	    <label class="layui-form-label">村</label>
 	    <div class="layui-input-block">
 	      <select id="zhen"  name="zhen">
-	        <option value="">请选择</option>
+	        <!-- <option value="">请选择</option> -->
 	      </select>
 	    </div>
 	</div>
@@ -60,7 +60,8 @@
 	  });
 	  
 	  form.on('select(city)', function(data){
-		  $("#xian").empty();
+		 $("#xian").empty();
+		 $("#xian").append("<option>请选择...</option>")
 		 var pid = data.value;
 		 $.ajax({
 			 type:"POST",
@@ -81,7 +82,8 @@
 	  
 	  form.on('select(xian)', function(data){
 		  	$("#zhen").empty();
-			 var pid = data.value;
+		  	$("#zhen").append("<option>请选择...</option>");
+            var pid = data.value;
 			 $.ajax({
 				 type:"POST",
 				 url:"/location/twoLocation",
@@ -89,7 +91,6 @@
 				 dataType:"json",
 				 success:function(data){
 					for(var i = 0;i<data.length;i++){
-						
 						$("#zhen").append("<option value='"+data[i].lOCATION_ID+"'>"+data[i].lOCATION_NAME+"</option>");
 					}
 					  form.render();

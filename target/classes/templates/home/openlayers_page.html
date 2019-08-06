@@ -1,6 +1,7 @@
 <div id="map" style="height: 500px;border: 1px solid red;"></div>
 <button id="big">放大</button>
 <button id="small">缩小</button>
+<button id="fly-to-bern">定位到北京</button>
 <script>
 	//创建地图
 	var map = new ol.Map({
@@ -8,7 +9,9 @@
 	          attributionOptions: ({
 	            collapsible: false
 	          })
-	        }),
+	        }).extend([
+	            new ol.control.MousePosition(),
+	        ]),
 	      // 设置地图图层
 	      layers: [
 	        // 创建一个使用Open Street Map地图源的瓦片图层
@@ -17,10 +20,15 @@
 	      // 设置显示地图的视图
 	      view: new ol.View({
 	        center: [0, 0],    // 定义地图显示中心于经度0度，纬度0度处
-	        zoom: 2            // 并且定义地图显示层级为2
+	        zoom: 5            // 并且定义地图显示层级为2
 	      }),
 	      // 让id为map的div作为地图的容器
-	      target: 'map'    
+	      target: 'map',
+	      //
+	      loadTilesWhileAnimating: true,
+	      
+	   // 指定投影使用EPSG:4326
+          projection: 'EPSG:3857',
 	  });
 	
 	//放大
@@ -36,4 +44,15 @@
 		var zoom = view.getZoom();
 		view.setZoom(zoom-1);
 	});
+	
+	//动画定位到某点
+	$("#fly-to-bern").click(function(){
+		var view = map.getView();
+		var beijing = ol.proj.fromLonLat([116.40, 39.90]);
+		view.animate({
+          center: beijing,
+          duration: 3000
+        });
+	});
+	
 </script>
