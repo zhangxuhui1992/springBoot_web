@@ -1,8 +1,12 @@
-<div id="map" style="height: 500px;border: 1px solid red;"></div>
-<button id="big">放大</button>
-<button id="small">缩小</button>
-<button id="fly-to-bern">定位到北京</button>
-<button id="drawPoint">画点</button>
+<div id='map' style='height: 500px;border: 1px solid red;'></div>
+<button id='big'>放大</button>
+<button id='small'>缩小</button>
+<button id='fly-to-bern'>定位到北京</button>
+<button id='drawPoint'>画点</button>
+<button id='drawLine'>画线</button>
+<button id='drawCircle'>画圆</button>
+<button id='drawPolygon'>画多边形/区域</button>
+<button id='cleanMap'>清空图层</button>
 <script>
 	//创建地图
 	var map = new ol.Map({
@@ -29,8 +33,6 @@
 	      target: 'map',
 	      //
 	      loadTilesWhileAnimating: true,
-	      
-	   
 	  });
 	
 	//放大
@@ -57,42 +59,163 @@
         });
 	});
 	
-	//画点
+	 // 添加一个绘制的线使用的layer
+    var vectorLayer = new ol.layer.Vector({
+        source: new ol.source.Vector()
+    });
+    map.addLayer(vectorLayer);
+    var draw;
+    
+ 	/* // 监听singleclick事件
+    map.on('singleclick', function(event){
+       console.log(event.coordinate);
+    }); */
+ 	
+    //画点
 	$("#drawPoint").click(function(){
-         /*  draw = new ol.interaction.Draw({
-            type: "Point"
-          });
-          map.addInteraction(draw); */
+		map.removeInteraction(draw);
        // 添加一个绘制的线使用的layer
-          var pointLayer = new ol.layer.Vector({
-              source: new ol.source.Vector(),
-              style: new ol.style.Style({
+        var style = new ol.style.Style({
                   image: new ol.style.Icon({
                 	src:'images/favicon.ico'
                   }),
                   text:new ol.style.Text({
-                	  text:"我是一个点",
-                	  font:"18px sans-serif ",
-                	  offsetY:"-20",
+                	  text:'我是一个点',
+                	  font:'18px sans-serif ',
+                	  offsetY:'-20',
                 	  fill:new ol.style.Fill({
-                		  color:"red"
+                		  color:'red'
                 	  })
                   })
-              })
-          })
-          map.addLayer(pointLayer);
-          
-          map.addInteraction(new ol.interaction.Draw({
+              });
+        vectorLayer.setStyle(style);
+        draw = new ol.interaction.Draw({
         	  type:'Point',
-        	  source:pointLayer.getSource()
-        	  }));
-       // 监听singleclick事件
-          map.on('singleclick', function(event){
-              // 通过getEventCoordinate方法获取地理位置，再转换为wgs84坐标，并弹出对话框显示
-              console.log(event.coordinate);
-              alert(event.coordinate);
-          })
-
+        	  source:vectorLayer.getSource()
+        	});
+       map.addInteraction(draw);
+       //绘制完毕后，获取绘制的坐标，点坐标为数组
+       draw.on('drawend',function(event){
+    	   var geom = event.feature.getGeometry();
+    	   var position = geom.getCoordinates();
+    	   console.log(position);
+    	});
+     //清空添加的矢量图层
+		vectorLayer.getSource().clear();
 	});
 	
+	 //画线
+	$("#drawLine").click(function(){
+		map.removeInteraction(draw);
+		var style = new ol.style.Style({
+			 stroke:new ol.style.Stroke({
+				color:'red',
+				width:'10px'
+			 }),
+			 text:new ol.style.Text({
+				 text:'我是一条线',
+				 font:'normal 18px 微软雅黑',
+				 textAlign:'center',
+				 textBaseline:'middle',
+				 fill:new ol.style.Fill({
+					 color:'#aa3300'
+				 })
+			 }),
+			 zIndex:20
+		 });
+		vectorLayer.setStyle(style);
+		draw = new ol.interaction.Draw({
+	      	  type:'LineString',
+	      	  source:vectorLayer.getSource()
+    	  });
+		map.addInteraction(draw);
+		//线的坐标为二维数组
+		draw.on('drawend',function(event){
+	    	   var geom = event.feature.getGeometry();
+	    	   var position = geom.getCoordinates();
+	    	   console.log(position);
+	    	});
+		//清空添加的矢量图层
+		vectorLayer.getSource().clear();
+	});
+	 
+	 //画圆
+	 $("#drawCircle").click(function(){
+		 map.removeInteraction(draw);
+		 var style = new ol.style.Style({
+			 stroke:new ol.style.Stroke({
+				color:'#ffcc33',
+				width:'2'
+			 }),
+			 text:new ol.style.Text({
+				 text:'我是圆',
+				 font:'normal 18px 微软雅黑',
+				 textAlign:'center',
+				 textBaseline:'middle',
+				 fill:new ol.style.Fill({
+					 color:'rgba(255,33,0,1)'
+				 })
+			 }),
+			 fill:new ol.style.Fill({
+				 color:'rgba(0,198,255,0.4)'
+			 })
+		 });
+		vectorLayer.setStyle(style);
+		 draw = new ol.interaction.Draw({
+	      	  type:'Circle',
+	      	  source:vectorLayer.getSource()
+   	  	});
+		map.addInteraction(draw);
+		//圆的圆心坐标和半径
+		draw.on('drawend',function(event){
+	    	   var geom = event.feature.getGeometry();
+	    	   var position = "中心点"+geom.getCenter()+"半径"+geom.getRadius();
+	    	   console.log(position);
+	    	});
+		//清空添加的矢量图层
+		vectorLayer.getSource().clear();
+	 });
+	
+	 
+	 //画多边形
+	 $("#drawPolygon").click(function(){
+		 map.removeInteraction(draw);
+		 var style = new ol.style.Style({
+			 stroke:new ol.style.Stroke({
+				color:'#ffcc33',
+				width:'2'
+			 }),
+			 text:new ol.style.Text({
+				 text:'我是多边形',
+				 font:'normal 18px 微软雅黑',
+				 textAlign:'center',
+				 textBaseline:'middle',
+				 fill:new ol.style.Fill({
+					 color:'rgba(255,33,0,1)'
+				 })
+			 }),
+			 fill:new ol.style.Fill({
+				 color:'rgba(0,198,255,0.4)'
+			 })
+		 });
+		vectorLayer.setStyle(style);
+		 draw = new ol.interaction.Draw({
+	      	  type:'Polygon',
+	      	  source:vectorLayer.getSource()
+   	  	});
+		map.addInteraction(draw);
+		//多边形坐标是二维数组
+		draw.on('drawend',function(event){
+				var geom = event.feature.getGeometry();
+	    	   	var position = geom.getCoordinates();
+	    	   	console.log(position);
+	    	});
+		//清空添加的矢量图层
+		vectorLayer.getSource().clear();
+	 });
+	 
+	 //清空图层
+	 $("#cleanMap").click(function(){
+		vectorLayer.getSource().clear();
+	});
 </script>
