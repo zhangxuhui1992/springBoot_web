@@ -436,6 +436,82 @@ var option = {
 	 $("#cleanMap").click(function(){
 		vectorLayer.getSource().clear();
 	});
+    
+    //初始化点
+	 $("#addPoint").click(function(){
+		 var pointFeature = new ol.Feature({
+			 geometry:new ol.geom.Point([116.40, 39.90]),
+			 name:"1324",
+			 id:"666"
+		 });
+		 var style = new ol.style.Style({
+             image: new ol.style.Icon({
+           	 src:'images/favicon.ico'
+             	}),
+             text:new ol.style.Text({
+           	  text:'我是一个点',
+           	  font:'18px sans-serif ',
+           	  offsetY:'-20',
+           	  fill:new ol.style.Fill({
+           		  color:'red'
+           	  })
+             })
+         });
+		 pointFeature.setStyle(style);
+		 vectorLayer.getSource().addFeature(pointFeature);
+	 });
+	 
+	 //初始化线
+	 $("#addLine").click(function(){
+		 var linefeature = new ol.Feature({
+		     	geometry:new ol.geom.LineString([[113.5991,24.8166], [114.5991,25.8166]])
+		    	});
+		 var style = new ol.style.Style({
+			 stroke:new ol.style.Stroke({
+				color:'red',
+				width:'10px'
+			 }),
+			 text:new ol.style.Text({
+				 text:'我是一条线',
+				 font:'normal 18px 微软雅黑',
+				 textAlign:'center',
+				 textBaseline:'middle',
+				 fill:new ol.style.Fill({
+					 color:'#aa3300'
+				 })
+			 }),
+			 zIndex:20
+		 });
+		 linefeature.setStyle(style);
+		 vectorLayer.getSource().addFeature(linefeature);
+	 });
+	 
+	 //初始化多边形区域
+	 $("#addPolygon").click(function(){
+		 var PolygonFeature = new ol.Feature({
+			 geometry:new ol.geom.Polygon([[[110, 39], [116, 39], [116, 33], [110, 33], [110, 39]]])
+		 });
+		 var style = new ol.style.Style({
+			 stroke:new ol.style.Stroke({
+				color:'#ffcc33',
+				width:'2'
+			 }),
+			 text:new ol.style.Text({
+				 text:'我是多边形',
+				 font:'normal 18px 微软雅黑',
+				 textAlign:'center',
+				 textBaseline:'middle',
+				 fill:new ol.style.Fill({
+					 color:'rgba(255,33,0,1)'
+				 })
+			 }),
+			 fill:new ol.style.Fill({
+				 color:'rgba(0,198,255,0.4)'
+			 })
+		 });
+		 PolygonFeature.setStyle(style);
+		 vectorLayer.getSource().addFeature(PolygonFeature);
+	 });
 </script>
 
 ~~~
