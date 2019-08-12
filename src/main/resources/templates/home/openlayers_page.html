@@ -32,6 +32,8 @@
 	      view: new ol.View({
 	        center: [111, 34],    // 定义地图显示中心于经度0度，纬度0度处
 	        zoom: 4,// 并且定义地图显示层级为5
+	        maxZoom: 9,  //地图的最大放大级别
+	        minZoom:3,   //地图的自小放大级别
 	     	// 指定投影使用EPSG:4326
 	        projection: 'EPSG:4326',
 	      }),
