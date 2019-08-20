@@ -56,4 +56,6 @@ public interface LocationService {
 	 * $根据pid查询
 	 */
 	public List<Location> twoLocation(String pid);
+
+	public List<Location> selectAlls(String page, String limit);
 }

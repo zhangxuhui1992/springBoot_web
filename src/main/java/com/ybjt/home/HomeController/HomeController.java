@@ -90,4 +90,12 @@ public class HomeController {
         return "home/openlayers_page";
     }
 	
+	/**
+	 * $跳转layui table分页;
+	 */
+	@RequestMapping("/table")
+    public String table(){
+        return "home/table";
+    }
+	
 }

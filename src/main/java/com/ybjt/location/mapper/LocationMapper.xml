@@ -31,4 +31,9 @@
      <select id="twoLocation" resultType="location">
         select * from sys_location where LOCATION_PID = #{pid};
     </select>
+    
+    <!-- 查询全部 -->
+    <select id="selectAlls" resultType="location">
+        select * from sys_location limit ${param1},${param2};
+    </select>
 </mapper>

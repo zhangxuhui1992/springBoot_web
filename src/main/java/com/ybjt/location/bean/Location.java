@@ -5,7 +5,6 @@ import java.util.Date;
 /**
  * #城市实体类
  * @author Administrator
- *
  */
 public class Location {
 	private String LOCATION_ID;//id主键

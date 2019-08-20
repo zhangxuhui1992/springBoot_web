@@ -102,6 +102,18 @@ public class LocationServiceImpl implements LocationService {
 	public List<Location> twoLocation(String pid) {
 		return locationMapper.twoLocation(pid);
 	}
+
+	@Override
+	public List<Location> selectAlls(String page, String limit) {
+		if(page == "1") {
+			page = (Integer.parseInt(page) - 1)+"";
+			limit = limit;
+		}else {
+			limit = limit;
+			page = ((Integer.parseInt(page) - 1)*5)+"";
+		}
+		return locationMapper.selectAlls(page,limit);
+	}
 	
 	
 	

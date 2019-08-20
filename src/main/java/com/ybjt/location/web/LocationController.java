@@ -33,10 +33,28 @@ public class LocationController {
 	 * $查询全部
 	 * @return
 	 */
+	@ResponseBody
 	@RequestMapping("/selectAll")
-	public String selectAll() {
-		List<Location> selectAll = locationService.selectAll();
-		return "";
+	public String selectAll(String page,String limit) {
+		List<Location> selectAll = locationService.selectAlls(page,limit);
+		List<Location> selectAll2 = locationService.selectAll();
+		JSONArray array = new JSONArray();
+		JSONObject object = new JSONObject();
+		for(int i = 0;i<selectAll.size();i++) {
+			JSONObject obj = new JSONObject();
+			obj.put("LOCATION_ID", selectAll.get(i).getLOCATION_ID());
+			obj.put("LOCATION_NAME", selectAll.get(i).getLOCATION_NAME());
+			obj.put("LOCATION_CREAETIME", selectAll.get(i).getLOCATION_CREAETIME());
+			obj.put("LOCATION_EDITTIME", selectAll.get(i).getLOCATION_CREAETIME());
+			obj.put("LOCATION_PID", selectAll.get(i).getLOCATION_PID());
+			obj.put("LOCATION_DESC", selectAll.get(i).getLOCATION_DESC());
+			array.add(obj);
+		}
+		object.put("data", array);
+		object.put("code", 0);
+		object.put("msg", "");
+		object.put("count", selectAll2.size());
+		return JSON.toJSONString(object);
 	}
 	
 	/**
