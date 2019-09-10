@@ -1,0 +1,67 @@
+<blockquote class="layui-elem-quote news_search">
+<div class="layui-inline">
+      <label class="layui-form-label">开始时间</label>
+      <div class="layui-input-inline">
+        <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
+      </div>
+</div>
+<div class="layui-inline">
+      <label class="layui-form-label">天数</label>
+      <div class="layui-input-inline">
+        <input type="text" name="day" id="day" class="layui-input">
+      </div>
+</div>
+<div class="layui-inline">
+      <label class="layui-form-label">结束时间</label>
+      <div class="layui-input-inline">
+        <input type="text" name="datetime" id="datetime" class="layui-input">
+      </div>
+</div>
+</blockquote>
+<blockquote class="layui-elem-quote news_search">
+	1、使用layui的时间插件选择时间；<br>
+	2、填写天数；<br>
+	3、当填写天数的输入框失去焦点的时候，计算时间并填入结束时间的输入框；<br>
+	4、时间的计算使用js的Date对象；首先将字符串时间转成date类型，再获取天数加上输入的天数。<br>
+	5、从date类型的时间中，获取各个值，拼成指定的格式。<br>
+	6、当时间数字小于10时，要在前面补0,使用三元运算符操作完成!;<br>
+</blockquote>
+<script>
+	layui.use('laydate',function(){
+		var laydate = layui.laydate;
+		laydate.render({
+			elem:'#date',
+			type:'datetime',
+			theme:'#393D49',
+			trigger:'click'
+		})
+	});
+	
+	$("#day").blur(function(){
+		var startTime = $("#date").val();
+		var days = $("#day").val();
+		
+		if(startTime == ""){
+			layer.msg("请选择开始时间！");
+			$("#day").val("");
+			return;
+		}
+		
+		if(isNaN(Number(days))){
+			layer.msg("请输入正确数字格式的天数！");
+			return;
+		}else{
+			var time = new Date(startTime);
+			time.setDate(time.getDate()+Number(days));
+			var yy = time.getFullYear();
+			var mm = (time.getMonth()+1)<10?"0"+(time.getMonth()+1):(time.getMonth()+1);
+			var dd = time.getDate()<10?"0"+time.getDate():time.getDate();
+			var hh = time.getHours()<10?"0"+time.getHours():time.getHours();
+			var ii = time.getMinutes()<10?"0"+time.getMinutes():time.getMinutes();
+			var ss = time.getSeconds()<10?"0"+time.getSeconds():time.getSeconds();
+			
+			$("#datetime").val(yy+"-"+mm+"-"+dd+" "+hh+":"+ii+":"+ss);
+		}
+	});
+	
+</script>

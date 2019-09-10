@@ -1,5 +1,7 @@
 package com.ybjt.location.web;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +46,10 @@ public class LocationController {
 			JSONObject obj = new JSONObject();
 			obj.put("LOCATION_ID", selectAll.get(i).getLOCATION_ID());
 			obj.put("LOCATION_NAME", selectAll.get(i).getLOCATION_NAME());
-			obj.put("LOCATION_CREAETIME", selectAll.get(i).getLOCATION_CREAETIME());
-			obj.put("LOCATION_EDITTIME", selectAll.get(i).getLOCATION_CREAETIME());
+			Date create = selectAll.get(i).getLOCATION_CREAETIME();
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			obj.put("LOCATION_CREAETIME", format.format(create));
+			obj.put("LOCATION_EDITTIME", format.format(selectAll.get(i).getLOCATION_EDITTIME()));
 			obj.put("LOCATION_PID", selectAll.get(i).getLOCATION_PID());
 			obj.put("LOCATION_DESC", selectAll.get(i).getLOCATION_DESC());
 			array.add(obj);

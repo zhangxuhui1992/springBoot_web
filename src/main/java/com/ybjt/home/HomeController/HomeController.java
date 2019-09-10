@@ -98,4 +98,20 @@ public class HomeController {
         return "home/table";
     }
 	
+	/**
+	 * $跳转layui 时间插件;
+	 */
+	@RequestMapping("/time")
+    public String time(){
+        return "home/time";
+    }
+	
+	/**
+	 * $发送验证码
+	 */
+	@RequestMapping("/sendmsg")
+    public String sendmsg(){
+        return "home/sendmsg";
+    }
+	
 }
