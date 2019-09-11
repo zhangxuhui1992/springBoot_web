@@ -1,0 +1,34 @@
+<input type="text" calss="range" name="width"/>
+<div class="layui-inline">
+      <label class="layui-form-label">监听滑块</label>
+      <div class="layui-input-inline">
+        <input type="text" name="value" class="layui-input">
+      </div>
+</div>
+<hr>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+      <button type="submit" class="layui-btn" id="sendMsg">设置为80%</button>
+    </div>
+  </div>
+<script>
+	$("input[name='width']").ionRangeSlider({
+		min:0,//最小值
+		max:100,//最大初始化
+		from:50,//初始化
+		step:1,//步长
+		prefix:"",//前缀
+		postfix:"%",//后缀
+		grid:true,//是否显示网格，
+		onFinish: function (data) {
+            console.log(data);
+            $("input[name='value']").val(data.from);
+        },
+	});
+	
+	$("#sendMsg").click(function(){
+		var range = $("input[name='width']").data("ionRangeSlider");
+		range.update({from:80});
+	});
+	
+</script>

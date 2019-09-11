@@ -114,4 +114,20 @@ public class HomeController {
         return "home/sendmsg";
     }
 	
+	/**
+	 * $集成ion.rangeSlider
+	 */
+	@RequestMapping("/ionRangeSlider")
+    public String ionRangeSlider(){
+        return "home/ionRangeSlider";
+    }
+	
+	/**
+	 * $集成ion.rangeSlider
+	 */
+	@RequestMapping("/colpick")
+    public String colpick(){
+        return "home/colpick";
+    }
+	
 }
