@@ -16,6 +16,6 @@ public class ConsumerController {
 	@RequestMapping("/hello")
 	@ResponseBody
 	 public String hello() {
-		return "Hello World!543534524";
+		return "Hello World!";
 	}
 }
